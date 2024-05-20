@@ -5,7 +5,7 @@ const Note = ({ title, content }) => {
     const twTitle = "mt-1 ml-2 text-2xl text-white";
     const twText = "mt-1 ml-2 text-xl text-white";
     return (
-        <View style={tw`bg-slate-800 m-2`}>
+        <View style={tw`bg-slate-800 m-2 rounded-md`}>
         <Text style={tw`${twTitle}`}>{title}</Text>
         <Text style={tw`${twText}`}>{content}</Text>
         </View>
