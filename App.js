@@ -6,15 +6,18 @@ import 'react-native-reanimated';
 import { useEffect, useState } from 'react';
 import { useAddNoteMutation, useFetchNotesQuery, useDeleteNoteMutation } from './db';
 import Note from "./components/Note";
+import { TextInput } from 'react-native-web';
+
+const twText = "w-screen mt-16 text-center text-xl text-white font-bold";
 
 //todo: move components into different files
 const HomePage = () => {
   const [notes, setNotes] = useState([]);
   const { data } = useFetchNotesQuery();
-  const [ addNote ] = useAddNoteMutation();
-  const [ deleteNote ] = useDeleteNoteMutation();
-
-  useEffect(() => { setNotes(data) }, []);
+  useEffect(() => { 
+    setNotes(data);
+    console.log(notes);
+    }, []);
 
   return(
     <>
@@ -28,8 +31,7 @@ const HomePage = () => {
 
 function App() {
   useDeviceContext(tw);
-  const twText = "w-screen mt-16 text-center text-xl text-white font-bold";
- 
+
   return (
     <Provider store={store}>
       <SafeAreaView style={tw`bg-black`}>
@@ -37,12 +39,12 @@ function App() {
           Notes
         </Text>
         <Text style={tw`${twText}`}>
-          Search bar goes here
+          Search bar will go here
         </Text>
-         <HomePage />
-         <Pressable style={tw` absolute bottom-15 right-10 w-12 h-12 bg-blue-500 hover:bg-blue-700 text-white font-bold border border-blue-700 rounded-full`}onPress={() => {}}>
-            <Text style={tw`m-auto text-white text-xl font-extrabold`}>+</Text>
-          </Pressable> 
+        <HomePage />
+        <Pressable style={tw` absolute bottom-15 right-10 w-12 h-12 bg-blue-500 hover:bg-blue-700 text-white font-bold border border-blue-700 rounded-full`}>
+          <Text style={tw`m-auto text-white text-xl font-extrabold`}>+</Text>
+        </Pressable> 
       </SafeAreaView>
     </Provider>
   )
