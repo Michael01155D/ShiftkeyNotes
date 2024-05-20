@@ -41,7 +41,7 @@ const SearchBar = () => {
   return(
     <>
     <TextInput 
-      style={tw`w-95% h-8 ml-2 mt-2 text-white bg-slate-800 rounded-lg px-2`} 
+      style={tw`w-99% h-8 ml-1 mt-2 mb-2 text-white bg-slate-800 rounded-lg px-2`} 
       placeholder="Search"
       value={query}
       onChangeText={(newQuery) => setQuery(newQuery)}
