@@ -1,9 +1,9 @@
 import { Text, View } from 'react-native';
 import tw from 'twrnc';
-
+//todo: add onPress to Note that brings up note editor page for that note
 const Note = ({ title, content }) => {
-    const twTitle = "mt-1 text-center text-2xl text-white font-bold";
-    const twText = "mt-1 text-center text-xl text-white font-bold";
+    const twTitle = "mt-1 ml-2 text-2xl text-white";
+    const twText = "mt-1 ml-2 text-xl text-white";
     return (
         <View style={tw`bg-slate-800 m-2`}>
         <Text style={tw`${twTitle}`}>{title}</Text>
