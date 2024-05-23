@@ -9,34 +9,58 @@ import Note from "./components/Note";
 import MasonryList from '@react-native-seoul/masonry-list';
 import { TextInput } from 'react-native-web';
 
+//next todo: implement stack.screen
+
 //todo: move components into different files
-const HomePage = () => {
-  const [notes, setNotes] = useState([{title: "test note 1", content: "1"}, {title: "test note 2", content: "2"}, {title: "test note 3", content: "3"}]);
-  const { data } = useFetchNotesQuery();
-  /* 
-  useEffect(() => { 
-    setNotes(data);
-    //for debugging:
+const HomePage = ( {navigation} ) => {
+  const [notes, setNotes] = useState();
+  //aliasing to prevent name conflict
+  const { data: notesData } = useFetchNotesQuery();
+  const [addNote, { data: newNoteData, error: addNoteError}] = useAddNoteMutation();
+  
+  useEffect(() => {
+    if (notesData) { 
+      setNotes(notesData);
+    } else{   //for debugging
+      setNotes([{title: "hello", content: "world"}]);
+    } 
     console.log("Notes are", notes);
-    }, []); */
+    }, []);
+  
   return(
-    notes ? 
-    <MasonryList 
-      style={tw`w-full h-screen`}
-      data={notes}
-      keyExtractor={(item) => item.id}
-      numColumns={2}
-      showsVerticalScrollIndicator={false}
-      renderItem={({item}) => <Note title={item.title} content={item.content}/>}
-      onEndReachedThreshold={0.1}
-    />
+    notes ?
+    <View style={tw`w-full h-screen`}>
+      <SearchBar/>
+      <Notes notes={notes}/>
+      <Pressable style={tw` absolute bottom-15 right-10 w-12 h-12 bg-blue-500 hover:bg-blue-700 text-white font-bold border border-blue-700
+        rounded-full`}
+        onPress={() => addNote({title: "", content: ""})}
+        >
+          <Text style={tw`m-auto text-white text-xl font-extrabold`}>+</Text>
+      </Pressable> 
+    </View>
     :
     <></>
   )
 }
 
-const SearchBar = () => {
-  const [query, setQuery] = useState("");
+const Notes = ({ notes }) => {
+
+  return(
+    <>
+  <MasonryList 
+  style={tw`w-full h-screen`}
+  data={notes}
+  keyExtractor={(item) => item.id}
+  numColumns={2}
+  showsVerticalScrollIndicator={false}
+  renderItem={({item}) => <Note title={item.title} content={item.content}/>}
+  onEndReachedThreshold={0.1}/>
+  </>
+  )
+}
+
+const SearchBar = ({query, setQuery}) => {
 
   return(
     <>
@@ -53,19 +77,17 @@ const SearchBar = () => {
 
 function App() {
   useDeviceContext(tw);
-
   return (
     <Provider store={store}>
+      <Stack.Navigator initialRouteName="HomeScreen">
       <SafeAreaView style={tw`bg-black`}>
         <Text style={tw`w-screen mt-6 text-center text-xl text-white font-bold`}>
           Notes
         </Text>
-        <SearchBar/>
-        <HomePage />
-        <Pressable style={tw` absolute bottom-15 right-10 w-12 h-12 bg-blue-500 hover:bg-blue-700 text-white font-bold border border-blue-700 rounded-full`}>
-          <Text style={tw`m-auto text-white text-xl font-extrabold`}>+</Text>
-        </Pressable> 
+        <Stack.Screen
+        />
       </SafeAreaView>
+      </Stack.Navigator>
     </Provider>
   )
 }
