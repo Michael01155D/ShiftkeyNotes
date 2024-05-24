@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { store } from './store';
 import 'react-native-reanimated'; 
 import { useEffect, useState } from 'react';
-import { useAddNoteMutation, useFetchNotesQuery, useDeleteNoteMutation, useSearchNotesQuery } from './db';
+import { useAddNoteMutation, useFetchNotesQuery, useDeleteNoteMutation, useSearchNotesQuery, useUpdateNoteMutation } from './db';
 import Note from "./components/Note";
 import MasonryList from '@react-native-seoul/masonry-list';
 import { TextInput } from 'react-native-web';
@@ -80,18 +80,22 @@ const NoteEditor = ({route}) => {
   const [noteContent, setNoteContent] = useState("");
   const { title, content, id } = route.params.data;
   const [deleteNote] = useDeleteNoteMutation();
+  const [updateNote] = useUpdateNoteMutation();
   useEffect(() => {
-    const updateNote = () => {
-      title = noteTitle;
-      content = noteContent;
-    }
-    //if new note is blank, delete it, else update it on unmount
-    return title === "" && content === "" ? deleteNote(id) : updateNote();
-  }, [])
+    updateNote({title: noteTitle, content: noteContent, id});
+  }, [noteTitle, noteContent]);
+  // const sendUpdate = () => {
+  //   updateNote({title: noteTitle, content: noteContent, id});
+  // }
+
   return(
     <SafeAreaView>
-      <TextInput placeholder="Title" onChangeText={(newText) => setNoteTitle(newText)}></TextInput>
-      <TextInput placeholder="New note" onChangeText={(newText) => setNoteContent(newText)}></TextInput>
+      <TextInput placeholder="Title" onChangeText={(newText) => {
+        setNoteTitle(newText)
+      }}/>
+      <TextInput placeholder="New note" onChangeText={(newText) => {
+        setNoteContent(newText)
+      }}/>
     </SafeAreaView>
   )
 }
