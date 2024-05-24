@@ -75,27 +75,35 @@ const SearchBar = ({query, setQuery}) => {
   )
 }
 
-const NoteEditor = ({route}) => {
+const NoteEditor = ({navigation, route}) => {
   const [noteTitle, setNoteTitle] = useState("");
   const [noteContent, setNoteContent] = useState("");
   const { title, content, id } = route.params.data;
   const [deleteNote] = useDeleteNoteMutation();
   const [updateNote] = useUpdateNoteMutation();
+
+  const removeNote = () => {
+    deleteNote(route.params.data);
+    navigation.navigate("HomePage");
+  }
+  //add delete button to header on component mount
+  useEffect(() => {
+    navigation.setOptions({headerRight: () => (
+      <Pressable style={tw`w-fit bg-slate-800 m-auto rounded-lg px-5 py-2`} onPress={() => removeNote()}>
+        <Text style={tw`text-base text-white`}>Delete Note</Text>
+      </Pressable>
+    )})
+  }, [])
+
+  //when title or content is updated, update the note in the db
   useEffect(() => {
     updateNote({title: noteTitle, content: noteContent, id});
   }, [noteTitle, noteContent]);
-  // const sendUpdate = () => {
-  //   updateNote({title: noteTitle, content: noteContent, id});
-  // }
 
   return(
     <SafeAreaView>
-      <TextInput placeholder="Title" onChangeText={(newText) => {
-        setNoteTitle(newText)
-      }}/>
-      <TextInput placeholder="New note" onChangeText={(newText) => {
-        setNoteContent(newText)
-      }}/>
+      <TextInput placeholder="Title" onChangeText={(newText) => {setNoteTitle(newText)}}/>
+      <TextInput placeholder="New note" onChangeText={(newText) => {setNoteContent(newText)}}/>
     </SafeAreaView>
   )
 }
@@ -118,7 +126,6 @@ function App() {
             headerStyle: tw`bg-black`,
             headerTintColor: "#fff",
             headerShadowVisible: false,
-            headerRight: () => (<Pressable>todo: make this look like a garbage can and delete note</Pressable>)
           }}/>
         </Stack.Navigator>
       </NavigationContainer>
