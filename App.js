@@ -15,7 +15,6 @@ const Stack = createNativeStackNavigator();
 
 //todo: move components into different files
 const HomePage = ( {navigation} ) => {
-  const [notes, setNotes] = useState([]);
   //aliasing to prevent name conflict
   const { data: notesData } = useSearchNotesQuery("");
   const [addNote, { data: newNoteData, error: addNoteError}] = useAddNoteMutation();
@@ -27,11 +26,12 @@ const HomePage = ( {navigation} ) => {
   }, [newNoteData])
   
 
+
   return(
     notesData ?
     <SafeAreaView style={tw`bg-black h-full w-full`}>
         <SearchBar/>
-        <Notes notes={notesData}/>
+        <Notes notes={notesData} navigation={navigation}/>
         <Pressable style={tw` absolute bottom-15 right-10 w-12 h-12 bg-blue-500 hover:bg-blue-700 text-white font-bold border border-blue-700
         rounded-full`}
         onPress={() => addNote({title: "", content: ""})}
@@ -44,7 +44,11 @@ const HomePage = ( {navigation} ) => {
   )
 }
 
-const Notes = ({ notes }) => {
+const Notes = ({ notes, navigation}) => {
+
+  const handlePress = (note) => {
+    navigation.navigate("NoteEditor", {data: note})
+  }
   console.log("In notes component, notes is:", notes);
   return(
     <>
@@ -54,7 +58,7 @@ const Notes = ({ notes }) => {
   keyExtractor={(item) => item.id}
   numColumns={2}
   showsVerticalScrollIndicator={false}
-  renderItem={({item}) => <Note title={item.title} content={item.content}/>}
+  renderItem={({item}) => <Note note={item} handlePress={handlePress}/>}
   onEndReachedThreshold={0.1}/>
   </>
   )
