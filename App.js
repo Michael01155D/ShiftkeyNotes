@@ -80,9 +80,9 @@ const SearchBar = ({query, setQuery}) => {
 }
 
 const NoteEditor = ({navigation, route}) => {
-  const [noteTitle, setNoteTitle] = useState("");
-  const [noteContent, setNoteContent] = useState("");
   const { title, content, id } = route.params.data;
+  const [noteTitle, setNoteTitle] = useState(title);
+  const [noteContent, setNoteContent] = useState(content);
   const [deleteNote] = useDeleteNoteMutation();
   const [updateNote] = useUpdateNoteMutation();
 
@@ -90,7 +90,7 @@ const NoteEditor = ({navigation, route}) => {
     deleteNote(route.params.data);
     navigation.navigate("HomePage");
   }
-  //add delete button to header on component mount
+  //adds delete button to header on component mount
   useEffect(() => {
     navigation.setOptions({headerRight: () => (
       <Pressable style={tw`w-fit bg-slate-800 m-auto rounded-lg px-5 py-2`} onPress={() => removeNote()}>
@@ -106,8 +106,8 @@ const NoteEditor = ({navigation, route}) => {
 
   return(
     <SafeAreaView>
-      <TextInput placeholder="Title" onChangeText={(newText) => {setNoteTitle(newText)}}/>
-      <TextInput placeholder="New note" onChangeText={(newText) => {setNoteContent(newText)}}/>
+      <TextInput placeholder="Title" value={noteTitle} onChangeText={(newText) => {setNoteTitle(newText)}}/>
+      <TextInput placeholder="New note" value={noteContent} onChangeText={(newText) => {setNoteContent(newText)}}/>
     </SafeAreaView>
   )
 }
