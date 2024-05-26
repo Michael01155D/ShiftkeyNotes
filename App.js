@@ -96,8 +96,16 @@ const NoteEditor = ({navigation, route}) => {
       <Pressable style={tw`w-fit bg-slate-800 m-auto rounded-lg px-5 py-2`} onPress={() => removeNote()}>
         <Text style={tw`text-base text-white`}>Delete Note</Text>
       </Pressable>
-    )})
-  }, [])
+    )
+    })
+    //listener to delete note if no title and no content when unmounted
+    const removeEmptyNote = navigation.addListener("beforeRemove", (event) => {
+       if (!noteTitle && !noteContent) {
+          deleteNote(route.params.data);
+       }
+     });
+    return removeEmptyNote;
+  }, [navigation, noteContent, noteTitle])
 
   //when title or content is updated, update the note in the db
   useEffect(() => {
