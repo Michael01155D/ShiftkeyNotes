@@ -3,7 +3,7 @@ import tw, { useDeviceContext } from 'twrnc';
 import { Provider } from 'react-redux';
 import { store } from './store';
 import 'react-native-reanimated'; 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useAddNoteMutation, useFetchNotesQuery, useDeleteNoteMutation, useSearchNotesQuery, useUpdateNoteMutation } from './db';
 import Note from "./components/Note";
 import MasonryList from '@react-native-seoul/masonry-list';
@@ -14,6 +14,8 @@ import { NavigationContainer } from '@react-navigation/native';
 const Stack = createNativeStackNavigator();
 
 //todo: move components into different files
+
+
 const HomePage = ( {navigation} ) => {
   //aliasing to prevent name conflict
   const { data: notesData } = useSearchNotesQuery("");
@@ -85,11 +87,17 @@ const NoteEditor = ({navigation, route}) => {
   const [noteContent, setNoteContent] = useState(content);
   const [deleteNote] = useDeleteNoteMutation();
   const [updateNote] = useUpdateNoteMutation();
+  const inputRef = useRef(null);
 
   const removeNote = () => {
     deleteNote(route.params.data);
     navigation.navigate("HomePage");
   }
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, [])
+
   //adds delete button to header on component mount
   useEffect(() => {
     navigation.setOptions({headerRight: () => (
@@ -114,7 +122,7 @@ const NoteEditor = ({navigation, route}) => {
 
   return(
     <SafeAreaView>
-      <TextInput placeholder="Title" value={noteTitle} onChangeText={(newText) => {setNoteTitle(newText)}}/>
+      <TextInput placeholder="Title" ref={inputRef} value={noteTitle} onChangeText={(newText) => {setNoteTitle(newText)}}/>
       <TextInput placeholder="New note" value={noteContent} onChangeText={(newText) => {setNoteContent(newText)}}/>
     </SafeAreaView>
   )
