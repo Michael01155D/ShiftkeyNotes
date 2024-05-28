@@ -1,6 +1,5 @@
 import { Pressable, Text, View } from 'react-native';
 import tw from 'twrnc';
-//todo: add onPress to Note that brings up note editor page for that note
 const Note = ({ note, handlePress }) => {
     const twTitle = "mt-1 ml-2 text-2xl text-white";
     const twText = "mt-1 ml-2 text-lg text-white";

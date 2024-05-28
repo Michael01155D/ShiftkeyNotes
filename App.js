@@ -18,9 +18,9 @@ const Stack = createNativeStackNavigator();
 
 const HomePage = ( {navigation} ) => {
   //aliasing to prevent name conflict
-  const { data: notesData } = useSearchNotesQuery("");
+  const [query, setQuery] = useState("");
+  const { data: notesData } = useSearchNotesQuery(query);
   const [addNote, { data: newNoteData, error: addNoteError}] = useAddNoteMutation();
-  
   useEffect(() => {
     if (newNoteData != undefined) {
       navigation.navigate("NoteEditor", {data: newNoteData});
@@ -32,7 +32,13 @@ const HomePage = ( {navigation} ) => {
   return(
     notesData ?
     <SafeAreaView style={tw`bg-black h-full w-full`}>
-        <SearchBar/>
+        <TextInput 
+        style={tw`w-98% h-8 mt-2 mb-2 text-white bg-slate-800 rounded-lg px-2`} 
+        placeholder="Search"
+        value={query}
+        onChangeText={(newQuery) => setQuery(newQuery)}
+        //todo: display notes filtered by query
+        />
         <Notes notes={notesData} navigation={navigation}/>
         <Pressable style={tw` absolute bottom-15 right-10 w-12 h-12 bg-blue-500 hover:bg-blue-700 text-white font-bold border border-blue-700
         rounded-full`}
@@ -66,20 +72,6 @@ const Notes = ({ notes, navigation}) => {
   )
 }
 
-const SearchBar = ({query, setQuery}) => {
-
-  return(
-    <>
-    <TextInput 
-      style={tw`w-98% h-8 mt-2 mb-2 text-white bg-slate-800 rounded-lg px-2`} 
-      placeholder="Search"
-      value={query}
-      onChangeText={(newQuery) => setQuery(newQuery)}
-      //todo: display notes filtered by query
-    />
-    </>
-  )
-}
 
 const NoteEditor = ({navigation, route}) => {
   const { title, content, id } = route.params.data;
@@ -121,9 +113,9 @@ const NoteEditor = ({navigation, route}) => {
   }, [noteTitle, noteContent]);
 
   return(
-    <SafeAreaView>
-      <TextInput placeholder="Title" ref={inputRef} value={noteTitle} onChangeText={(newText) => {setNoteTitle(newText)}}/>
-      <TextInput placeholder="New note" value={noteContent} onChangeText={(newText) => {setNoteContent(newText)}}/>
+    <SafeAreaView style={tw`bg-black h-full w-full`}>
+      <TextInput style={tw`mt-1 ml-2 text-lg text-white`} placeholder="Title" ref={inputRef} value={noteTitle} onChangeText={(newText) => {setNoteTitle(newText)}}/>
+      <TextInput style={tw`mt-2 ml-2 text-lg text-white`} placeholder="New note" value={noteContent} onChangeText={(newText) => {setNoteContent(newText)}}/>
     </SafeAreaView>
   )
 }
