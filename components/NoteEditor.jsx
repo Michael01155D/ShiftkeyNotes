@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useUpdateNoteMutation, useDeleteNoteMutation } from "../db";
 import { SafeAreaView, TextInput, Pressable, Text } from "react-native";
 import tw from 'twrnc';
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 const NoteEditor = ({navigation, route}) => {
     const { title, content, id } = route.params.data;
@@ -23,17 +24,17 @@ const NoteEditor = ({navigation, route}) => {
     //adds delete button to header on component mount
     useEffect(() => {
       navigation.setOptions({headerRight: () => (
-        <Pressable style={tw`w-fit bg-slate-800 m-auto rounded-lg px-5 py-2`} onPress={() => removeNote()}>
-          <Text style={tw`text-base text-white`}>Delete Note</Text>
-        </Pressable>
+        <AntDesign name="delete" style={tw`mr-5`}size={24} color="white"  onPress={() => removeNote()}/>
       )
-      })
+      });
+
       //listener to delete note if no title and no content when unmounted
       const removeEmptyNote = navigation.addListener("beforeRemove", (event) => {
-         if (!noteTitle && !noteContent) {
-            deleteNote(route.params.data);
-         }
-       });
+        if (!noteTitle && !noteContent) {
+          deleteNote(route.params.data);
+        }
+        });
+
       return removeEmptyNote;
     }, [navigation, noteContent, noteTitle])
   
