@@ -7,7 +7,6 @@ const Notes = ({ notes, navigation}) => {
     const handlePress = (note) => {
       navigation.navigate("NoteEditor", {data: note})
     }
-    console.log("In notes component, notes is:", notes);
     return(
       <>
     <MasonryList 

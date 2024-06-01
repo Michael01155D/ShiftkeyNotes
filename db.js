@@ -63,7 +63,8 @@ export const dbApi = createApi({
         const notes = JSON.parse(serializedNotes) || [];
         const updatedNotes = notes.map((n) => {
           if (n.id === note.id) {
-            return { ...n, title: note.title, content: note.content };
+            // add color attribute to DB for extra feature to allow diff text color notes
+            return { ...n, title: note.title, content: note.content, color: note.color };
           }
           return n;
         });

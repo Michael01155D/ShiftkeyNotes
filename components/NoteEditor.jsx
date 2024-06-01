@@ -1,16 +1,29 @@
 import { useState, useEffect, useRef } from "react";
 import { useUpdateNoteMutation, useDeleteNoteMutation } from "../db";
-import { SafeAreaView, TextInput, Pressable, Text } from "react-native";
+import { SafeAreaView, TextInput, Text } from "react-native";
 import tw from 'twrnc';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import { Dropdown } from 'react-native-element-dropdown';
 
 const NoteEditor = ({navigation, route}) => {
-    const { title, content, id } = route.params.data;
+    const { title, content, color, id } = route.params.data;
     const [noteTitle, setNoteTitle] = useState(title);
     const [noteContent, setNoteContent] = useState(content);
     const [deleteNote] = useDeleteNoteMutation();
     const [updateNote] = useUpdateNoteMutation();
     const inputRef = useRef(null);
+    //**extra feature:** give notes a color attribute that user can change in DropDown component menu
+    const [noteColor, setNoteColor] = useState(color ? color : 'text-white');
+    const colors = [
+      { label: 'White (default)', value: 'text-white' },
+      { label: 'Red', value: 'text-red-600' },
+      { label: 'Yellow', value: 'text-yellow-500' },
+      { label: 'Green', value: 'text-green-600' },
+      { label: 'Blue', value: 'text-blue-600' },
+      { label: 'Purple', value: 'text-purple-600' },
+      { label: 'Pink', value: 'text-pink-800' },
+    ]
+       
   
     const removeNote = () => {
       deleteNote(route.params.data);
@@ -38,15 +51,27 @@ const NoteEditor = ({navigation, route}) => {
       return removeEmptyNote;
     }, [navigation, noteContent, noteTitle])
   
-    //when title or content is updated, update the note in the db
+ 
+    //when note is updated, update the note in the db
     useEffect(() => {
-      updateNote({title: noteTitle, content: noteContent, id});
-    }, [noteTitle, noteContent]);
-  
+      updateNote({title: noteTitle, content: noteContent, id, color: noteColor});
+      console.log("note is now: " , noteColor)
+    }, [noteTitle, noteContent, noteColor]);
+
     return(
       <SafeAreaView style={tw`bg-black h-full w-full`}>
-        <TextInput style={tw`mt-1 ml-2 text-lg text-white`} placeholder="Title" ref={inputRef} value={noteTitle} onChangeText={(newText) => {setNoteTitle(newText)}}/>
-        <TextInput style={tw`mt-2 ml-2 text-lg text-white`} placeholder="New note" value={noteContent} onChangeText={(newText) => {setNoteContent(newText)}}/>
+        <TextInput style={tw`mt-1 ml-2 text-lg ${noteColor}`} placeholder="Title" ref={inputRef} value={noteTitle} onChangeText={(newText) => {setNoteTitle(newText)}}/>
+        <TextInput style={tw`mt-2 ml-2 text-lg ${noteColor}`} placeholder="New note" value={noteContent} onChangeText={(newText) => {setNoteContent(newText)}}/>
+        <Dropdown 
+          data={colors}
+          labelField="label"
+          valueField="value"
+          placeholder={noteColor}
+          value={noteColor}
+          onChange={(choice)=> {setNoteColor(choice.value)}}
+          style={tw` mt-50 w-50% bg-white mx-auto`}
+        />
+        <Text style={tw`text-white mx-auto mt-2`}>Select a Font Color for Your Note!</Text>
       </SafeAreaView>
     )
   }
