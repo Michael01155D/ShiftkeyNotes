@@ -5,7 +5,6 @@ const Note = ({ note, handlePress }) => {
     //use note color attribute for font color, else if absent default to text-white
     const twTitle = `mt-1 ml-2 text-2xl ${color ? color : 'text-white'}`;
     const twText = `mt-1 ml-2 text-lg ${color ? color : 'text-white'}`;
-    //console.log("note obj is: ", note)
     return (
         <View style={tw`bg-slate-800 m-1 rounded-md`}>
             <Pressable onPress={() => handlePress(note)}>

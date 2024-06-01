@@ -21,10 +21,9 @@ const NoteEditor = ({navigation, route}) => {
       { label: 'Green', value: 'text-green-600' },
       { label: 'Blue', value: 'text-blue-600' },
       { label: 'Purple', value: 'text-purple-600' },
-      { label: 'Pink', value: 'text-pink-800' },
+      { label: 'Pink', value: 'text-pink-600' },
     ]
        
-  
     const removeNote = () => {
       deleteNote(route.params.data);
       navigation.navigate("HomePage");
@@ -42,11 +41,11 @@ const NoteEditor = ({navigation, route}) => {
       });
 
       //listener to delete note if no title and no content when unmounted
-      const removeEmptyNote = navigation.addListener("beforeRemove", (event) => {
-        if (!noteTitle && !noteContent) {
-          deleteNote(route.params.data);
-        }
-        });
+    const removeEmptyNote = navigation.addListener("beforeRemove", (event) => {
+       if (!noteTitle && !noteContent) {
+        deleteNote(route.params.data);
+      }
+      });
 
       return removeEmptyNote;
     }, [navigation, noteContent, noteTitle])
