@@ -54,7 +54,6 @@ const NoteEditor = ({navigation, route}) => {
     //when note is updated, update the note in the db
     useEffect(() => {
       updateNote({title: noteTitle, content: noteContent, id, color: noteColor});
-      console.log("note is now: " , noteColor)
     }, [noteTitle, noteContent, noteColor]);
 
     return(
