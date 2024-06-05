@@ -1,3 +1,4 @@
-# SKNotesStarter
+# ShiftkeyNotes
+Notes app using react-native, starting code forked from shiftkeylabs, project allows users to create/read/update/delete notes saved to a local database using AsyncStorage. 
 
-View the [ShiftKey Labs Notion](https://shiftkeylabs.notion.site/Project-Install-Instructions-f937641104bc42e098fcfefcf7349608) for detailed installation instructions.
+Project part of ShiftKey Labs Academy react native event May/June 2024. 
