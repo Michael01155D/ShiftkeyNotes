@@ -58,8 +58,8 @@ const NoteEditor = ({navigation, route}) => {
 
     return(
       <SafeAreaView style={tw`bg-black h-full w-full`}>
-        <TextInput style={tw`mt-1 ml-2 mr-2 text-lg ${noteColor} border border-white`} placeholder="Title" ref={inputRef} value={noteTitle} onChangeText={(newText) => {setNoteTitle(newText)}}/>
-        <TextInput style={tw`mt-2 ml-2 mr-2 text-lg ${noteColor} border border-white`} placeholder="New note" value={noteContent} onChangeText={(newText) => {setNoteContent(newText)}}/>
+        <TextInput style={tw`mt-1 ml-2 pl-2 mr-2 text-lg ${noteColor} border border-white`} placeholder="Title" ref={inputRef} value={noteTitle} onChangeText={(newText) => {setNoteTitle(newText)}}/>
+        <TextInput style={tw`mt-2 ml-2 pl-2 mr-2 text-lg ${noteColor} border border-white`} placeholder="New note" value={noteContent} onChangeText={(newText) => {setNoteContent(newText)}}/>
         <Dropdown 
           data={colors}
           labelField="label"
@@ -67,7 +67,7 @@ const NoteEditor = ({navigation, route}) => {
           placeholder={noteColor}
           value={noteColor}
           onChange={(choice)=> {setNoteColor(choice.value)}}
-          style={tw` mt-50 w-50% bg-white mx-auto`}
+          style={tw` mt-50 w-50% bg-white mx-auto rounded-lg pl-1`}
         />
         <Text style={tw`text-white mx-auto mt-2`}>Select a Font Color for Your Note!</Text>
       </SafeAreaView>
