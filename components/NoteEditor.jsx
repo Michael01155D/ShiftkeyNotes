@@ -58,8 +58,8 @@ const NoteEditor = ({navigation, route}) => {
 
     return(
       <SafeAreaView style={tw`bg-black h-full w-full`}>
-        <TextInput style={tw`mt-1 ml-2 text-lg ${noteColor}`} placeholder="Title" ref={inputRef} value={noteTitle} onChangeText={(newText) => {setNoteTitle(newText)}}/>
-        <TextInput style={tw`mt-2 ml-2 text-lg ${noteColor}`} placeholder="New note" value={noteContent} onChangeText={(newText) => {setNoteContent(newText)}}/>
+        <TextInput style={tw`mt-1 ml-2 mr-2 text-lg ${noteColor} border border-white`} placeholder="Title" ref={inputRef} value={noteTitle} onChangeText={(newText) => {setNoteTitle(newText)}}/>
+        <TextInput style={tw`mt-2 ml-2 mr-2 text-lg ${noteColor} border border-white`} placeholder="New note" value={noteContent} onChangeText={(newText) => {setNoteContent(newText)}}/>
         <Dropdown 
           data={colors}
           labelField="label"

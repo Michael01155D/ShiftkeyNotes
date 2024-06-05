@@ -23,7 +23,7 @@ export const dbApi = createApi({
         const notes = JSON.parse(serializedNotes);
         
         if (searchString == "") { 
-          //edited as per Allan's suggestion on discord:
+          //edited as per Allan's suggestion on discord to fix issue of not fetching data on new device:
           return { data: notes || [] }
         } else {
           const filteredNotes = notes.filter(note => {
