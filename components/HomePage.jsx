@@ -36,7 +36,7 @@ const HomePage = ( {navigation} ) => {
       </SafeAreaView>
       :
       <SafeAreaView>
-        <Text> Didnt fetch note data :( </Text>
+        <Text> Error retrieving notes from server. </Text>
       </SafeAreaView>
     )
   }
