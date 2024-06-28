@@ -59,7 +59,8 @@ const NoteEditor = ({navigation, route}) => {
       <SafeAreaView style={tw`bg-black h-full w-full`}>
         <TextInput 
           style={tw`mt-1 ml-2 pl-2 mr-2 text-lg ${noteColor} bg-slate-800`} 
-          placeholder="Title" 
+          placeholder="Title"
+          placeholderTextColor="white" 
           ref={inputRef} 
           value={noteTitle} 
           onChangeText={(newText) => {setNoteTitle(newText)}}
@@ -67,6 +68,8 @@ const NoteEditor = ({navigation, route}) => {
         <TextInput 
           style={tw`mt-2 ml-2 pl-2 mr-2 text-lg ${noteColor} bg-slate-800 rounded-md`} 
           multiline
+          textAlignVertical="top"
+          placeholderTextColor="white"
           numberOfLines={15} 
           placeholder="New note" 
           value={noteContent} 

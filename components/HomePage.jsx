@@ -22,6 +22,7 @@ const HomePage = ( {navigation} ) => {
           <TextInput 
           style={tw`w-98% h-8 mt-2 mb-2 text-white bg-slate-800 rounded-lg px-2`} 
           placeholder="Search"
+          placeholderTextColor="white"
           value={query}
           onChangeText={(newQuery) => setQuery(newQuery)}
           />
